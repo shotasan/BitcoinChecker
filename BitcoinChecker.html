@@ -15,12 +15,18 @@
       Bitcoin Price
     </h2>
 
+    <section v-if="hasError">
+      Error.
+    </section>
+
+    <section v-else="hasError">
       <ul v-cloak>
         <!-- currencyがキー、rateがvalue -->
         <li v-for="(rate, currency) in bpi">
           {{ currency }} : {{ rate.rate_float | currencyDecimal }}
         </li>
       </ul>
+    </section>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
