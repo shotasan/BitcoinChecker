@@ -2,7 +2,8 @@ new Vue({
   el: "#app",
   data: {
     bpi: null,
-    hasError: false
+    hasError: false,
+    loading: true
   },
   mounted: function () {
     axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
@@ -10,11 +11,16 @@ new Vue({
         // bindが無いとthisはwindowオブジェクトを指す。bind(this)によりthisがvueインスタンスになる。
         // this.bpiでdataオブジェクトのbpiプロパティに値を設定する。
         this.bpi = response.data.bpi
-        console.log(this.bpi)
       }.bind(this))
+      // エラーハンドリング
       .catch(function (error) {
         console.log(error)
         this.hasError = true
+      }.bind(this))
+      // 通信終了時に実行される処理
+      .finally(function () {
+        // ローディング中の表示を終了する処理
+        this.loading = false
       }.bind(this))
   },
   filters: {
